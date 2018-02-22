@@ -1,0 +1,19 @@
+{
+  "name": "Three Monster",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "morgan": "^1.6.1",
+    "serve-static": "^1.10.2",
+    "socket.io": "^1.4.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Douglas Oliveira & Igor Couto",
+  "license": "ISC"
+}

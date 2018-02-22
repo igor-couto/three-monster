@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title><%=title%></title>
+	
+	<link href="css/arena.css" rel="stylesheet" type="text/css">
+	
+	<link rel="stylesheet" href="css/vex/vex.css" />
+	<link rel="stylesheet" href="css/vex/vex-theme-os.css" />
+	
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+	<script type="text/javascript" src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script type="text/javascript">
+		// Utils
+		function extend(super, sub){
+		    sub.prototype = Object.create(super.prototype); 
+		    sub.prototype.constructor = sub;
+		}
+		function rad(_deg) { return _deg * (Math.PI/180); }
+		function deg(_rad) { return _rad * (180/Math.PI); }
+	</script>
+</head>
+
+<body onload="start(io())">
+	<div id="container">
+		<section id="field-area" onclick="hideChat()">
+			<!-- adiciona a área de renderização 3D via three.js -->
+		</section>
+		
+		<section id="side-bar">
+			<header>
+				<div id="logo" >
+					<h1>Three Monster</h1>
+				</div>
+				<div id="info">
+					<h2><span id="myid"><span style="color: red">Desconectado!</span></span><span id="nick"></span></h2>
+				</div>
+			</header>
+			
+			<!-- área para as cartas da mão -->
+			<div id="hand-area" onclick="hideChat()">
+				<img name="1" src="#" alt="monstro um"/>
+				<img name="2" src="#" alt="monstro dois"/>
+				<img name="3" src="#" alt="monstro três"/>
+			</div>
+			<!-- área de invocação, aparece ao clicar sobre uma carta da mão -->
+			<div id="summon-area">
+				<img src="#" alt="monstro clicado"/>
+				<p class="message">descrição</p>
+				<input id="summon" type="button" value="INVOCAR"/> 
+				<input class="back" type="button" value="VOLTAR">
+			</div>
+			<!-- área para exibir as mensagens do chat -->
+			<div id="chat-area">
+				<div name="messages"></div>
+			</div>
+
+			<input type="text" placeholder="envie uma mensagem..." onclick="chatShow()" value=""/>
+		</section>
+		
+		<div id="logger-area" style="display: none">
+			<!-- log do jogo, fica oculta -->	
+		</div>
+	</div> <!-- container -->
+	
+	<script src="js/arena/threejs/three.js"></script>
+	<script src="js/arena/threejs/controls/OrbitControls.js"></script>
+	<script src="js/arena/threejs/loaders/collada/Animation.js"></script>
+	<script src="js/arena/threejs/loaders/collada/AnimationHandler.js"></script>
+	<script src="js/arena/threejs/loaders/collada/KeyFrameAnimation.js"></script>
+	<script src="js/arena/threejs/loaders/ColladaLoader.js"></script>
+	<script src="js/arena/threejs/renderers/CanvasRenderer.js"></script>
+	<script src="js/arena/threejs/Detector.js"></script>
+	
+	<script src="js/arena/vex/vex.combined.min.js">
+		// Alert Modal da biblioteca VEX
+		vex.defaultOptions.className = 'vex-theme-os';
+		vex.dialog.buttons.YES.text = "Sim";
+		vex.dialog.buttons.NO.text = "Cancelar";
+	</script>
+	
+	<script type="text/javascript" src="js/arena/renderer.js"></script>
+	
+	<script type="text/javascript">
+		function reshape() {
+			var aspect = 1280/720;	// proporção da tela
+			var height = window.innerHeight - 5;
+			var width = aspect * height;
+			
+			$('#container').css('width', width + "px");
+			$('#container').css('height', height + "px");
+			
+			var wid = (width > 1280) ? 320 : (0.25 * width);
+			$('#side-bar').css('width', wid + "px");
+			$('#field-area').css('width', (width - wid) + "px");
+			$('#chat-area div').css('width', (0.9 * wid - 10) + "px");
+			
+			$('#field-area').trigger('reshape');
+			
+			aspect = 440/640;	// proporção das cartas
+			const bx = 30/320;	// proporção da borda horizontal
+			const by = 30/548;	// proporção da borda vertical
+			
+			width  = 0.70 * (1 - 2 * bx) * wid;
+			height = (1/aspect) * width;
+			$('#hand-area img').css('width', width + "px");
+			$('#hand-area img').css('height', height + "px");
+			$('#hand-area img').each(function(index) {
+				$(this).css('top',  by * height + index * (height / 3) + "px");
+				$(this).css('left', bx * width  + index * (width  / 4) + "px");
+			});
+		}; reshape();
+		
+		$(window).resize(reshape);
+
+	</script>
+	
+	<script type="text/javascript" src="js/arena/logger.js"></script>
+	<script type="text/javascript" src="js/arena/field.js"></script>
+	<script type="text/javascript" src="js/arena/hand.js"></script>
+	<script type="text/javascript" src="js/arena/chat.js"></script>
+	<script type="text/javascript" src="js/arena/main.js"></script>
+
+</body>
+
+</html>
