@@ -1,6 +1,8 @@
 # three-monster
 A card game with animated monsters that runs in the browser
 
+![](preview/preview01.png)
+
 ### Built With
 
 * [Node.js](https://nodejs.org) - Backend
