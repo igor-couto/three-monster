@@ -1,4 +1,4 @@
-# three-monster
+# Three Monster
 A card game with animated monsters that runs in the browser
 
 ![](preview/preview01.png)
